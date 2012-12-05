@@ -3349,11 +3349,17 @@ JNIEXPORT void JNICALL Java_org_keplerproject_luajava_LuaState__1concat
 ************************************************************************/
 
 JNIEXPORT void JNICALL Java_org_keplerproject_luajava_LuaState__1pop
-  (JNIEnv * env , jobject jobj , jobject cptr , jint idx)
+  (JNIEnv * env , jobject jobj , jobject cptr , jint count)
 {
    lua_State * L = getStateFromCPtr( env , cptr );
 
-   lua_pop( L , ( int ) idx );
+   int top = lua_gettop(L);
+
+   if ( top < count ) {
+    lua_pop( L , top );
+  } else {
+    lua_pop(L, (int) count);
+   }
 }
 
 
